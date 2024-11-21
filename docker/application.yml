@@ -1,0 +1,14 @@
+akhq:
+  connections:
+    my-kafka-cluster:
+      properties:
+        bootstrap.servers: "kafka:9092" # Replace with your Kafka broker(s) address
+
+  security:
+    default-group: admin
+    groups:
+      admin:
+        roles:
+          - topic/read
+          - topic/insert
+          - topic/delete
