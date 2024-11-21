@@ -27,7 +27,7 @@ services:
     image: tchiotludo/akhq:latest
     container_name: akhq
     volumes:
-      - "C:/kafka-docker/application.yml:/app/application.yml" # Mount local application.yml 
+      - "D:/My Study projects/Kafka-tutorial/docker/application.yml:/app/application.yml" # Mount local application.yml
     environment:
       - MICRONAUT_CONFIG_FILES:/app/application.yml # Path inside contain
       - AKHQ_CONNECTIONS__MYCLUSTER__BROKER=PLAINTEXT://kafka:9092
