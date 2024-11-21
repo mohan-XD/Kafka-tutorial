@@ -3,7 +3,7 @@ a simple guide to hands on Kafka with Windows and docker
 
 1. Using Docker
 2. Using command line
-3. Using windows WSL
+3. Using windows WSL-2
 
 # Using Docker
 
