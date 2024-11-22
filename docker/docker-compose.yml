@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENERS: PLAINTEXT://kafka:9092,,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+    depends_on:
+      - zookeeper
+
+  akhq:
+    image: tchiotludo/akhq:latest
+    container_name: akhq
+    volumes:
+      - "D:/My Study projects/Kafka-tutorial/docker/application.yml:/app/application.yml" # Mount local application.yml
+    environment:
+      - MICRONAUT_CONFIG_FILES:/app/application.yml # Path inside contain
+      - AKHQ_CONNECTIONS__MYCLUSTER__BROKER=PLAINTEXT://kafka:9092
+#      - AKHQ_SECURITY__ENABLED=true  # Optional for enabling security
+    ports:
+      - "8080:8080"
+    depends_on:
+      - kafka
+
+    restart: always
